@@ -4,7 +4,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,6 +27,15 @@ public class DataBaseUtils {
         props.setProperty("user", username);
 
         return DriverManager.getConnection(url, props);
+    }
+
+    public <T> T querySingle(String statement, ResultSetConverter<T> converter) {
+        List<T> list = query(statement, converter);
+        return list.size() == 1 ? list.get(0) : null;
+    }
+    public <T> T querySingle(String statement, Class<T> clazz) {
+        List<T> list = query(statement, clazz);
+        return list.size() == 1 ? list.get(0) : null;
     }
 
     public <T> List<T> query(String statement, ResultSetConverter<T> converter) {
@@ -66,7 +74,12 @@ public class DataBaseUtils {
         });
     }
 
-    public int update(String statement) {
+    /**
+     * delete/update/create
+     * @param statement
+     * @return
+     */
+    public int execute(String statement) {
         try (Connection conn = getConnection();
              Statement sqlStatement = conn.createStatement()) {
             return sqlStatement.executeUpdate(statement);
@@ -76,7 +89,6 @@ public class DataBaseUtils {
             throw new RuntimeException("Чёт пошло не так c запросами в базу\n" + e);
         }
     }
-
 
     public interface ResultSetConverter<R> {
         R convert(ResultSet t) throws SQLException, Exception;

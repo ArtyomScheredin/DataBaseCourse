@@ -20,8 +20,11 @@ public class UserDao {
             select * from get_user_info_by_name('%s');""";
 
     public UserDetails findUserByLogin(String login) {
-        List<User> user = dataBaseUtils.query(String.format(SELECT_ALL_USERS, login), getUserResultSetConverter());
-        return user.isEmpty() ? null : user.get(0);
+        return dataBaseUtils.querySingle(String.format(SELECT_ALL_USERS, login), getUserResultSetConverter());
+    }
+
+    public Integer findUserIdByLogin(String login) {
+        return dataBaseUtils.querySingle(String.format("select user_id from users where login='%s';", login), r -> r.getInt("user_id"));
     }
 
 
@@ -30,6 +33,4 @@ public class UserDao {
                 resultSet.getString("login"), resultSet.getString("password"),
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_" + resultSet.getString("role"))));
     }
-
-
 }

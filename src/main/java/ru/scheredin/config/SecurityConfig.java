@@ -33,14 +33,14 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/*")
+                .requestMatchers("/**")
                 .permitAll()
-                .requestMatchers("/customer")
+                /*.requestMatchers("/customer")
                 .hasRole("customer")
                 .requestMatchers("/engineer")
                 .hasRole("engineer")
                 .requestMatchers("/manager")
-                .hasRole("manager")
+                .hasRole("manager")*/
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

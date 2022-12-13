@@ -32,4 +32,8 @@ public class ProductsService {
         }
         return result.toList();
     }
+
+    public List<Integer> findAllProductsNotDiscontinued() {
+        return productsDao.findAllProductsNotDiscontinued();
+    }
 }

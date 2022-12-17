@@ -13,7 +13,7 @@ public class ProductsDao {
     public DataBaseUtils dataBaseUtils;
 
     public List<Product> findAllProducts() {
-        return dataBaseUtils.query("SELECT * FROM products;", Product.class);
+        return dataBaseUtils.query("select *, pc.name as category from products join product_categories pc using(category_id);", Product.class);
     }
 
     public List<Integer> findAllProductsNotDiscontinued() {

@@ -12,6 +12,6 @@ public class Refund {
     private Integer refund_id;
     private Integer order_id;
     private String description;
-    private Boolean approved;
+    private boolean approved;
     private Integer employee_id;
 }

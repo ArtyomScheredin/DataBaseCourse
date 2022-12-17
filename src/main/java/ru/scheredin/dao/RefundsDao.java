@@ -28,19 +28,24 @@ public class RefundsDao {
 
     public boolean createRefund(Integer orderId, String description, Integer employeeId) {
         return dataBaseUtils.execute(String.format("insert into refunds (order_id, description, approved, employee_id)\n" +
-                                                         "values (%d, '%s',false,%d);", orderId, description, employeeId)) == 1;
+                                                         "values (%d, '%s',false, %d);", orderId, description, employeeId)) == 1;
     }
 
     public List<Refund> findByCustomerLogin(String login) {
         return dataBaseUtils.query(String.format("""
             select * from refunds where order_id in 
             (select order_id from orders 
-            join users u on u.user_id = orders.customer_id where login='%s);""", login), Refund.class);
+            join users u on u.user_id = orders.customer_id where login='%s');""", login), Refund.class);
     }
 
     public List<Refund> findByEmployeeLogin(String login) {
         return dataBaseUtils.query(String.format("""
                                                     select * from refunds where employee_id in
-                                                    select user_id from users where login='%s');""", login), Refund.class);
+                                                    (select user_id from users where login='%s');""", login), Refund.class);
+    }
+
+    public int approveRefund(Integer refundId) {
+        return dataBaseUtils.execute(String.format("""
+                                                    update refunds set approved=true where refund_id=%d;""", refundId));
     }
 }

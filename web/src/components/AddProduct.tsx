@@ -53,7 +53,7 @@ const AddProduct = (props: { product_id: number }) => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Добавьте отзыв на продукт {props.product_id}</Modal.Title>
+                    <Modal.Title>Добавьте новый товар</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>

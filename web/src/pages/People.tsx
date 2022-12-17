@@ -46,7 +46,7 @@ const Orders = () => {
                                 return <tr>
                                     <td>{o.user_id}</td>
                                     <td>{o.name}</td>
-                                    <td><Form.Control
+                                    <td>{o.salary !== null && o.salary !== 0 ? <> <Form.Control
                                         type="text"
                                         placeholder={String(o.salary)} onChange={(e) => {
                                         setSalary(Number(e.target.value))
@@ -56,7 +56,7 @@ const Orders = () => {
                                             )
                                             setRefresh(!refresh)
                                         }
-                                    }>сохранить</Button></td>
+                                    }>сохранить</Button> </> : <>клиент</>}</td>
                                     <td>{o.blocked ? <Button onClick={() => {
                                         axios.put(`http://localhost:8080/${o.user_id}/ban`, {}, {params: {banned: 'False'}}
                                         )

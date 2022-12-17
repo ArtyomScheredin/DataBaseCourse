@@ -44,14 +44,14 @@ const Refunds = () => {
                                     <td>{o.refund_id}</td>
                                     <td>{o.description}</td>
 
-                                    <td>{ctx.role === 'customer' ? o.approved ? 'нет' : 'да'
+                                    <td>{ctx.role === 'customer' ? o.approved ? 'да' : 'нет'
                                             : !o.approved ?
                                                 <Button className="mt-1 me-5" variant="secondary" onClick={() => {
                                                     axios.put(`http://localhost:8080/orders/refund/${o.refund_id}`)
                                                     setRefresh(!refresh)
                                                 }}>
                                                     Одобрить
-                                                </Button> : 'да'}
+                                                </Button> : 'нет'}
                                     </td>
                                     <td>{o.order_id}</td>
                                     <td>{o.employee_id}</td>

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Table} from "react-bootstrap";
 import cartContext from "../context/customerCtx";
 import axios from "axios";
@@ -10,15 +10,17 @@ type CartEl = {
 const Orders = () => {
         const cart = useContext(cartContext)
         const [val, refresh] = useState<boolean>(true)
-        const cart1 = {}
 
         let ret: CartEl[] = []
 
-        cart?.cart.forEach((key, val) => {
-            ret.push({
-                key, val
-            });
-        });
+
+            cart?.cart.forEach((key, val) => {
+
+                    ret.push({
+                        key, val
+                    });})
+
+
 
         const createOrder = () => {
             if (cart !== undefined) {
@@ -42,6 +44,7 @@ const Orders = () => {
                             </tr>
                             </thead>
                             <tbody>
+                            <p>{val}</p>
                             {ret.map((e: CartEl) => {
                                 return <>
                                     <tr>

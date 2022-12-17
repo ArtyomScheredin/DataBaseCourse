@@ -89,8 +89,9 @@ const Products = () => {
                                         <td>{p.quantity}</td>
                                         <td>{p.discontinued ? 'да' : 'нет'}</td>
                                     </>}
-                                    <td><ReviewModal product_id={p.product_id}/>
-                                        {ctx?.role === 'customer' && <AddReviewModal product_id={p.product_id}/>}</td>
+                                    <td>{ctx?.role === 'customer' && <AddReviewModal product_id={p.product_id}/>}
+                                        <ReviewModal product={p}/>
+                                        </td>
                                     {ctx?.role === 'customer' && <th><BuyProduct product_id={p.product_id} max={p.quantity}/></th>}
                                 </tr>
                             })}

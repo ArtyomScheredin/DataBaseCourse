@@ -98,7 +98,7 @@ const FilterForm: React.FC<IMyProps> = (props: IMyProps) => {
             </Form.Select>
             <Form.Group className="mb-3" controlId="quantityMin">
                 <Form.Label>Минимальное доступное количество</Form.Label>
-                <Form.Control type="text" placeholder="введите число" onChange={(e) => setQuantity(e.target.value)}/>
+                <Form.Control type="number" placeholder="введите число" onChange={(e) => setQuantity(e.target.value)}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="discontinued">
                 <Form.Check type="checkbox" label="Ещё производится" onChange={(e) => {

@@ -57,6 +57,8 @@ public class ProductsController {
                                                                                      Review.class)));
     }
 
+
+
     @NoArgsConstructor
     @Getter
     @Setter
@@ -92,6 +94,19 @@ public class ProductsController {
         private int price;
         private int quantity;
         private boolean discontinued;
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getName(@PathVariable Integer id
+    ) {
+        try {
+            String name = dataBaseUtils.querySingle(String.format("""
+                                                                              select name from products where product_id=%d""",
+                                                                      id),
+                                                        t -> t.getString(1));
+            return ResponseEntity.ok(name);
+        } catch (Throwable e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createProduct(@RequestBody ProductDto product

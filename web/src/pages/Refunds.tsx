@@ -44,8 +44,7 @@ const Refunds = () => {
                                     <td>{o.refund_id}</td>
                                     <td>{o.description}</td>
 
-                                    <td>{
-                                        ctx.role === 'customer' ? o.approved ? 'нет' : 'да'
+                                    <td>{ctx.role === 'customer' ? o.approved ? 'нет' : 'да'
                                             : !o.approved ?
                                                 <Button className="mt-1 me-5" variant="secondary" onClick={() => {
                                                     axios.put(`http://localhost:8080/orders/refund/${o.refund_id}`)

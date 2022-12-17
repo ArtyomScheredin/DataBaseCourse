@@ -25,7 +25,7 @@ public class ProductsService {
                        && (!filters.containsKey("price") || ((e.getPrice() == Integer.parseInt(filters.get("price")))))
                        && (!filters.containsKey("discontinued") || ((e.isDiscontinued() == Boolean.parseBoolean(filters.get("discontinued")))))
                        && (!filters.containsKey("quantity_min") || ((e.getQuantity() > Integer.parseInt(filters.get("quantity_min")))))
-                       && (!filters.containsKey("name") || ((e.getName().equals(filters.get("name"))))
+                       && (!filters.containsKey("name") || ((e.getName().contains(filters.get("name"))))
                 ));
         if ((filters.containsKey("sort"))) {
             if (filters.get("sort").equals("ascending")) {

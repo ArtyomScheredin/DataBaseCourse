@@ -17,6 +17,7 @@ const RequestRefund = (props: { order_id: number }) => {
     const [showA, setShowA] = useState(false);
     const [description, setDescription] = useState<string>('');
     const [isRefunded, setRefunded] = useState<boolean>(false)
+    const [refresh, setRefresh] = useState<boolean>(false)
 
     const toggleShowA = () => setShowA(!showA);
     axios.get<Refund[]>("http://localhost:8080/orders/refund/my").then(response => {
@@ -29,7 +30,9 @@ const RequestRefund = (props: { order_id: number }) => {
     });
 
     const makeRefund = () => {
-        axios.post(`http://localhost:8080/orders/${props.order_id}/refund`, {description});
+        axios.post(`http://localhost:8080/orders/${props.order_id}/refund`, {description}).then(()=>{
+            setRefresh(!refresh)
+        });
         toggleShowA()
     }
 
@@ -37,7 +40,7 @@ const RequestRefund = (props: { order_id: number }) => {
         <>
             <p>ещё не получен</p>
             {isRefunded && <p>оформлен возврат</p>}
-            {!showA && !isRefunded &&
+            {!isRefunded &&
                 <> <Form.Group className="mb-3" controlId="name">
                     <Form.Control type="text" placeholder="Причина возврата"
                                   onChange={(e) => setDescription(e.target.value)}/>

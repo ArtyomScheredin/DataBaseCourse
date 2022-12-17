@@ -48,7 +48,7 @@ const ChangeBalance = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group className="mb-3" controlId="price-min">
-                        <Form.Label>сумма пополнения - {sum}</Form.Label>
+                        <Form.Label>сумма пополнения</Form.Label>
                         <Form.Control type="text"
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                                         setSum(parseInt(e.target.value))

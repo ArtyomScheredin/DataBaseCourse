@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Col, Container, Row, Table} from "react-bootstrap";
 import cartContext from "../context/customerCtx";
 import axios from "axios";
@@ -14,12 +14,12 @@ const Orders = () => {
         let ret: CartEl[] = []
 
 
-            cart?.cart.forEach((key, val) => {
+        cart?.cart.forEach((key, val) => {
 
-                    ret.push({
-                        key, val
-                    });})
-
+            ret.push({
+                key, val
+            });
+        })
 
 
         const createOrder = () => {
@@ -39,8 +39,8 @@ const Orders = () => {
                         <Table striped bordered hover size="lg">
                             <thead>
                             <tr>
-                                <th>товар</th>
                                 <th>количество</th>
+                                <th>товар</th>
                             </tr>
                             </thead>
                             <tbody>

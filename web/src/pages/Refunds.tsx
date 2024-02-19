@@ -13,15 +13,16 @@ const Refunds = () => {
         let ctx = useContext(Context);
 
         useEffect(() => {
-        if (ctx.role == 'customer') {
+            console.log(1)
+        if (ctx.role === 'customer') {
             axios.get<Refund[]>('http://localhost:8080/orders/refund/my').then(response => {
                 setRefunds(response.data)
             })
-        } else if (ctx.role == 'manager') {
+        } else if (ctx.role === 'manager') {
             axios.get<Refund[]>('http://localhost:8080/orders/refund/assigned').then(response => {
                 setRefunds(response.data)
             })
-        }}, [])
+        }},[ctx.role])
 
 
         return (
@@ -51,7 +52,7 @@ const Refunds = () => {
                                                     setRefresh(!refresh)
                                                 }}>
                                                     Одобрить
-                                                </Button> : 'нет'}
+                                                </Button> : 'одобрен'}
                                     </td>
                                     <td>{o.order_id}</td>
                                     <td>{o.employee_id}</td>

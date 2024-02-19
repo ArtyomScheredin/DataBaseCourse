@@ -87,7 +87,7 @@ const AddProduct = (props: { product_id: number }) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={submitReview}>
-                        Добавить отзыв
+                        Добавить товар
                     </Button>
                 </Modal.Footer>
             </Modal>

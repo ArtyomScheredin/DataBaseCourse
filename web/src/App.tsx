@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import './App.css';
 import Login from "./pages/Login";
 import Nav from "./components/Nav";
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import Products from "./pages/Products";
 import axios from "axios";
 import Context from "./context";

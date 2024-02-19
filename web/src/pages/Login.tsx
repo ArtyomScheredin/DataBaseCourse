@@ -1,5 +1,5 @@
-import React, {SyntheticEvent, useContext, useEffect, useState} from 'react';
-import {Navigate, useNavigate} from "react-router-dom";
+import React, {SyntheticEvent, useContext, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useCookies} from "react-cookie";
 import Context from "../context";
@@ -27,10 +27,12 @@ const Login = () => {
                     'Content-Type': 'application/json',
                     "Access-Control-Allow-Origin": "*"
                 }
-            });
-        if (axiosResponse.status != 200) {
-            alert("неправильный пароль")
-        }
+            }).catch(
+            function (error) {
+                alert("неправильные данные", error)
+            }
+        )
+
         setCookie("jwt", axiosResponse.data, {
             path: "/"
         });
@@ -46,7 +48,7 @@ const Login = () => {
                    onChange={e => setLogin(e.target.value)}
             />
 
-            <input type="password" className="form-control" placeholder="Password"  required
+            <input type="password" className="form-control" placeholder="Password" required
                    onChange={e => setPassword(e.target.value)}
             />
 

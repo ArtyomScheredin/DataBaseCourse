@@ -18,7 +18,8 @@ import java.util.function.Function;
 @Component
 @NoArgsConstructor
 public class JwtUtils {
-    private String jwtSigningKey = "secret";
+    @Value("${jwt.secret}")
+    private String jwtSigningKey = "";
     @Value("${jwt.expiration.hours}")
     private int JWT_EXPIRATION_HOURS = 0;
 
@@ -35,7 +36,7 @@ public class JwtUtils {
         return claims.get(claimName) != null;
     }
 
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 

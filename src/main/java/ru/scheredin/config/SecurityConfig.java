@@ -33,14 +33,16 @@ public class SecurityConfig {
         http
                  .csrf().disable().cors().and()
                 .authorizeHttpRequests()
-                .requestMatchers("/**")
+                .requestMatchers("/auth")
                 .permitAll()
-                /*.requestMatchers("/customer")
+                .requestMatchers("/**")
+                .authenticated()
+                .requestMatchers("/customer")
                 .hasRole("customer")
                 .requestMatchers("/engineer")
                 .hasRole("engineer")
                 .requestMatchers("/manager")
-                .hasRole("manager")*/
+                .hasRole("manager")
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -54,7 +56,17 @@ public class SecurityConfig {
     public AuthenticationProvider authenticationProvider() {
         final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setPasswordEncoder(new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return rawPassword.toString();
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return encodedPassword.equals(rawPassword.toString());
+            }
+        });
         return authenticationProvider;
     }
 

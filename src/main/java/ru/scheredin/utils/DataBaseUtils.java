@@ -21,10 +21,13 @@ public class DataBaseUtils {
     private final String url = null;
     @Value("${datasource.username}")
     private final String username = null;
+    @Value("${datasource.password}")
+    private final String password = null;
 
     private Connection getConnection() throws SQLException {
         Properties props = new Properties();
         props.setProperty("user", username);
+        props.setProperty("password", password);
 
         return DriverManager.getConnection(url, props);
     }

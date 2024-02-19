@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,13 +29,14 @@ import ru.scheredin.dto.AuthenticationRequest;
 @AllArgsConstructor
 public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
+    private final AuthenticationProvider authenticationProvider;
     private final UserDetailsService userDetailsService;
     private final JwtUtils jwtUtils;
     private final ObjectMapper objectMapper;
 
     @PostMapping
     public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request, HttpServletResponse response) throws JsonProcessingException {
-        authenticationManager.authenticate(
+        authenticationProvider.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getName(), request.getPassword())
         );
         final UserDetails user = userDetailsService.loadUserByUsername(request.getName());

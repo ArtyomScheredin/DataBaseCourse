@@ -51,9 +51,9 @@ public class RefundsController {
 
     @PutMapping(value = "/refund/{refundId}")
     public ResponseEntity<Integer> approveRefund(@PathVariable Integer refundId, Principal principal) {
-        if (refundsService.isAssignedEmployee(principal.getName(), refundId)) {
+        /*if (refundsService.isAssignedEmployee(principal.getName(), refundId)) {
             return ResponseEntity.status(HttpStatus.resolve(401)).build();
-        }
+        }*/
         refundsService.approveRefund(refundId);
         return ResponseEntity.ok().build();
     }

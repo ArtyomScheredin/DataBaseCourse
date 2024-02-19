@@ -40,8 +40,7 @@ public class RefundsDao {
 
     public List<Refund> findByEmployeeLogin(String login) {
         return dataBaseUtils.query(String.format("""
-                                                    select * from refunds where employee_id in
-                                                    (select user_id from users where login='%s');""", login), Refund.class);
+                                                    select * from refunds;""", login), Refund.class);
     }
 
     public int approveRefund(Integer refundId) {

@@ -13,6 +13,9 @@ public class CustomerService {
     }
 
     public boolean updateBalance(String login, Integer newBalance) {
+        if (login == null || login.isBlank()) {
+            throw new IllegalStateException("Wrong login");
+        }
         return customerDao.updateBalance(login, newBalance);
     }
 }

@@ -17,7 +17,7 @@ public class ProductsService {
     private ProductsDao productsDao;
     private final DataBaseUtils dataBaseUtils;
 
-    public List<Product>   findAllMatching(Map<String, String> filters) {
+    public List<Product> findAllMatching(Map<String, String> filters) {
         Stream<Product> result = productsDao.findAllProducts().stream().filter(e -> (
                         (!filters.containsKey("category") || (e.getCategory().equals(filters.get("category")))))
                        && (!filters.containsKey("price_min") || ((e.getPrice() > Integer.parseInt(filters.get("price_min")))))

@@ -18,7 +18,6 @@ import java.util.function.Function;
 @Component
 @NoArgsConstructor
 public class JwtUtils {
-
     private String jwtSigningKey = "secret";
     @Value("${jwt.expiration.hours}")
     private int JWT_EXPIRATION_HOURS = 0;

@@ -1,9 +1,11 @@
 package ru.scheredin.config;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,10 +18,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Component
+@AllArgsConstructor
 @NoArgsConstructor
 public class JwtUtils {
     @Value("${jwt.secret}")
-    private String jwtSigningKey = "";
+    private String JWT_SIGNING_KEY = "";
     @Value("${jwt.expiration.hours}")
     private int JWT_EXPIRATION_HOURS = 0;
 
@@ -37,7 +40,11 @@ public class JwtUtils {
     }
 
     public Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        try {
+            return extractExpiration(token).before(new Date());
+        } catch (ExpiredJwtException e) {
+            return true;
+        }
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -46,7 +53,7 @@ public class JwtUtils {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(jwtSigningKey).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(JWT_SIGNING_KEY).parseClaimsJws(token).getBody();
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -59,13 +66,15 @@ public class JwtUtils {
 
     private String createToken(Map<String, Object> claims, UserDetails userDetails) {
         JwtBuilder builder = Jwts.builder();
+
+        builder.setSubject(userDetails.getUsername());
         if (claims == null || !claims.isEmpty()) {
-            builder.setClaims(claims);
+            builder.addClaims(claims);
         }
-        return  builder.setSubject(userDetails.getUsername())
-                .claim("authorities", userDetails.getAuthorities())
-                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(JWT_EXPIRATION_HOURS)))
-                .signWith(SignatureAlgorithm.HS256, jwtSigningKey).compact();
+        builder.addClaims(Map.of("authorities", userDetails.getAuthorities()));
+        builder.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(JWT_EXPIRATION_HOURS)));
+        builder.signWith(SignatureAlgorithm.HS256, JWT_SIGNING_KEY);
+        return builder.compact();
     }
 
     public Boolean isTokenValid(String token, UserDetails userDetails) {

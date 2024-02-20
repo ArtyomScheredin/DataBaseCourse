@@ -55,7 +55,6 @@ public class DTOTests {
         order.setCustomer_id("Customer123");
         order.setOrder_date("2024-02-20");
         order.setRecieve_date("2024-02-25");
-
         assertEquals(1, order.getOrder_id());
         assertEquals("Customer123", order.getCustomer_id());
         assertEquals("2024-02-20", order.getOrder_date());

@@ -2,11 +2,7 @@ package ru.scheredin.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.http.HttpStatus;
+import lombok.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.scheredin.dto.Refund;
 import ru.scheredin.services.RefundsService;
@@ -33,6 +28,7 @@ public class RefundsController {
     @NoArgsConstructor
     @Getter
     @Setter
+    @AllArgsConstructor
     public static class LocalDto {
         private String description;
     }

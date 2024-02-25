@@ -1,3 +1,5 @@
+package ru.scheredin.dto;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.scheredin.dto.AuthenticationRequest;

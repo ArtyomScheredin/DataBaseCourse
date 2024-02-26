@@ -1,6 +1,7 @@
 package ru.scheredin.dto;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import ru.scheredin.dto.AuthenticationRequest;
 import ru.scheredin.dto.Category;
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Tag("artyom")
 public class DTOTests {
 
     @Test

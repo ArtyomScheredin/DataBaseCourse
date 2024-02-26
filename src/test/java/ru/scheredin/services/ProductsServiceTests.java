@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@Tag("denis")
 public class ProductsServiceTests {
     @Mock
     private ProductsDao productsDao;

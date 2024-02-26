@@ -26,6 +26,9 @@ public class OrdersController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getMyOrders(Principal principal) throws JsonProcessingException {
+        if(principal == null){
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(objectMapper.writeValueAsString(ordersService.getOrders(principal.getName())));
     }
 
@@ -35,6 +38,9 @@ public class OrdersController {
      */
     @PostMapping()
     public ResponseEntity<Integer> createOrder(@RequestBody Map<Integer, Integer> products, Principal principal) {
+        if(principal == null){
+            return ResponseEntity.badRequest().build();
+        }
         Integer orderId = ordersService.createOrder(products, principal.getName());
         if (orderId == null) {
             return ResponseEntity.badRequest().build();

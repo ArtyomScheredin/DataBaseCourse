@@ -43,14 +43,14 @@ public class UserController {
     }
 
     @PutMapping("/{user_id}/ban")
-    public ResponseEntity<String> blockUser(@PathVariable Integer user_id, @RequestParam Boolean banned) {
+    public ResponseEntity<String> blockUser(@PathVariable("user_id") Integer user_id, @RequestParam("banned") Boolean banned) {
         dataBaseUtils.execute(String.format("""
                                                     update users set blocked=%b where user_id=%d;""", banned, user_id));
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{user_id}/salary")
-    public ResponseEntity<String> changeSalary(@PathVariable Integer user_id, @RequestParam Integer newSalary) {
+    public ResponseEntity<String> changeSalary(@PathVariable("user_id") Integer user_id, @RequestParam("newSalary") Integer newSalary) {
         dataBaseUtils.execute(String.format("""
                                                     update employees set salary=%d where user_id=%d;""", newSalary,
                                             user_id));
@@ -59,11 +59,14 @@ public class UserController {
 
     @GetMapping("/balance")
     public ResponseEntity<Integer> getBalance(Principal principal) {
+        if(principal == null){
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(customerService.getBalance(principal.getName()));
     }
 
     @PutMapping("/balance")
-    public ResponseEntity<String> updateBalance(@RequestParam Integer newBalance, Principal principal) {
+    public ResponseEntity<String> updateBalance(@RequestParam("newBalance") Integer newBalance, Principal principal) {
         if (customerService.updateBalance(principal.getName(), newBalance)) {
             return ResponseEntity.ok().build();
         }
@@ -92,9 +95,12 @@ public class UserController {
 
     @PostMapping("/customer/")
     public ResponseEntity<String> saveCustomer(@RequestBody PersonDto personDto) throws JsonProcessingException {
+        String login = personDto.getLogin();
+        String name = personDto.getName();
+        Boolean banned = personDto.isBlocked();
         return ResponseEntity.ok(
                 objectMapper.writeValueAsString(dataBaseUtils.query(
-                        String.format("save_customer('%s','%s', '%s');", personDto.login, personDto.name, personDto.blocked),
+                        String.format("save_customer('%s','%s', '%s');", login, name, banned),
                         PersonDto.class)));
 
     }

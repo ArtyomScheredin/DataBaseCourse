@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -185,7 +186,8 @@ public class UserControllerTests {
     @Test
     @DisplayName("Тест обновления баланса")
     void updateBalanceTest() throws Exception {
-        when(customerService.updateBalance(principal.getName(), -100)).thenReturn(true);
+        when(customerService.updateBalance(principal.getName(), -100))
+                .thenReturn(true);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put("/balance")
@@ -199,7 +201,8 @@ public class UserControllerTests {
     @Test
     @DisplayName("Тест обновления баланса при отрицательном customerService.updateBalance")
     void updateBalanceTest1() throws Exception {
-        when(customerService.updateBalance(principal.getName(), -100)).thenReturn(false);
+        when(customerService.updateBalance(principal.getName(), -100))
+                .thenReturn(false);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put("/balance")
@@ -223,6 +226,7 @@ public class UserControllerTests {
     @Test
     @DisplayName("Тест сохранения пользователя")
     void saveCustomerTest() throws Exception {
+
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/customer/")
                 .content(DTO_PERSON_JSON)
@@ -231,4 +235,22 @@ public class UserControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
     }
+
+    @Test
+    @DisplayName("Тест Getters/Setters PersonDto")
+    void PersonDtoTest(){
+        UserController.PersonDto personDto = new UserController.PersonDto();
+        personDto.setUser_id(1);
+        personDto.setName("testName");
+        personDto.setBlocked(true);
+        personDto.setSalary(5000);
+        personDto.setLogin("testLogin");
+
+        assertEquals(personDto.getUser_id(), 1, "Wrong user_id");
+        assertEquals(personDto.getName(), "testName", "Wrong name");
+        assertTrue(personDto.isBlocked(), "Wrong blocked");
+        assertEquals(personDto.getSalary(), 5000, "Wrong salary");
+        assertEquals(personDto.getLogin(), "testLogin", "Wrong login");
+    }
+
 }

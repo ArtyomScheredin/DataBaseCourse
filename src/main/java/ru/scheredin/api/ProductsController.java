@@ -88,7 +88,8 @@ public class ProductsController {
     @NoArgsConstructor
     @Getter
     @Setter
-    private static class ProductDto {
+    @AllArgsConstructor
+    public static class ProductDto {
         private String name;
         private int category_id;
         private int price;
@@ -123,9 +124,9 @@ public class ProductsController {
 
     @PutMapping(value = "/{product_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateProduct(@PathVariable Integer product_id,
-                                                @RequestParam(required = false) Integer price,
-                                                @RequestParam(required = false) Integer quantity,
-                                                @RequestParam(required = false) Boolean discontinued
+                                                @RequestParam(name = "price", required = false) Integer price,
+                                                @RequestParam(name = "quantity",required = false) Integer quantity,
+                                                @RequestParam(name = "discontinued",required = false) Boolean discontinued
     ) {
         try {
             if (price != null) {

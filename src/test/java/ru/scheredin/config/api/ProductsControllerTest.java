@@ -251,6 +251,74 @@ public class ProductsControllerTest {
             assertEquals(expectedDescription, dto.getDescription());
         }
     }
+    public static class ProductDtoTest {
+
+        @Tag("anna")
+        @Test
+        @DisplayName("Конструктор корректно инициализирует поля")
+        public void constructorCorrectlyInitializesFields() {
+            String expectedName = "name";
+            Integer expectedCategoryId = 1;
+            Integer expectedPrice = 100;
+            Integer expectedQuantity = 1;
+
+            ProductsController.ProductDto dto = new ProductsController.ProductDto(expectedName, expectedCategoryId,
+                    expectedPrice, expectedQuantity, false);
+
+            assertEquals(expectedName, dto.getName());
+            assertEquals(expectedCategoryId, dto.getCategory_id());
+            assertEquals(expectedPrice, dto.getPrice());
+            assertEquals(expectedQuantity, dto.getQuantity());
+        }
+
+
+        @Tag("anna")
+        @Test
+        @DisplayName("Установка и получение имени")
+        public void setAndGetName() {
+            ProductsController.ProductDto dto = new ProductsController.ProductDto();
+            String expectedName = "name";
+
+            dto.setName(expectedName);
+
+            assertEquals(expectedName, dto.getName());
+        }
+        @Tag("anna")
+        @Test
+        @DisplayName("Установка и получение цены")
+        public void setAndGetPrice() {
+            ProductsController.ProductDto dto = new ProductsController.ProductDto();
+            Integer expectedPrice = 100;
+
+            dto.setPrice(expectedPrice);
+
+            assertEquals(expectedPrice, dto.getPrice());
+        }
+
+        @Tag("anna")
+        @Test
+        @DisplayName("Установка и получение количества")
+        public void setAndGetQuantity() {
+            ProductsController.ProductDto dto = new ProductsController.ProductDto();
+            Integer expectedQuantity = 1;
+
+            dto.setQuantity(expectedQuantity);
+
+            assertEquals(expectedQuantity, dto.getQuantity());
+        }
+
+        @Tag("anna")
+        @Test
+        @DisplayName("Установка и получение категории")
+        public void setAndGetCategory() {
+            ProductsController.ProductDto dto = new ProductsController.ProductDto();
+            Integer expectedCategoryId = 1;
+
+            dto.setCategory_id(expectedCategoryId);
+
+            assertEquals(expectedCategoryId, dto.getCategory_id());
+        }
+    }
 }
 
 

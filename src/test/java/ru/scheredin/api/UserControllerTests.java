@@ -7,14 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,18 +25,14 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ru.scheredin.services.CustomerService;
+import ru.scheredin.services.CustomerServiceImpl;
 import ru.scheredin.utils.DataBaseUtils;
 
 import java.security.Principal;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -48,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Tag("denis")
 public class UserControllerTests {
     @Mock
-    private CustomerService customerService;
+    private CustomerServiceImpl customerServiceImpl;
     @Mock
     private UserDetailsService userDetailsService;
     @Mock
@@ -71,7 +63,7 @@ public class UserControllerTests {
     void setUp() {
         objectMapper = new ObjectMapper();
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new UserController(customerService, userDetailsService, dataBaseUtils, objectMapper);
+        underTest = new UserController(customerServiceImpl, userDetailsService, dataBaseUtils, objectMapper);
         this.mockMvc = MockMvcBuilders.standaloneSetup(underTest).build();
 
     }
@@ -166,7 +158,7 @@ public class UserControllerTests {
     @Test
     @DisplayName("Тест получения баланса")
     void getBalanceTest() throws Exception {
-        when(customerService.getBalance(principal.getName())).thenReturn(1000); // Заменяем реальный вызов сервиса заглушкой
+        when(customerServiceImpl.getBalance(principal.getName())).thenReturn(1000); // Заменяем реальный вызов сервиса заглушкой
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/balance")
@@ -186,7 +178,7 @@ public class UserControllerTests {
     @Test
     @DisplayName("Тест обновления баланса")
     void updateBalanceTest() throws Exception {
-        when(customerService.updateBalance(principal.getName(), -100))
+        when(customerServiceImpl.updateBalance(principal.getName(), -100))
                 .thenReturn(true);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -201,7 +193,7 @@ public class UserControllerTests {
     @Test
     @DisplayName("Тест обновления баланса при отрицательном customerService.updateBalance")
     void updateBalanceTest1() throws Exception {
-        when(customerService.updateBalance(principal.getName(), -100))
+        when(customerServiceImpl.updateBalance(principal.getName(), -100))
                 .thenReturn(false);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders

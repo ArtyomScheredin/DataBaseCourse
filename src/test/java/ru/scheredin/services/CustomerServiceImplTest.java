@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import ru.scheredin.dao.CustomerDao;
+import ru.scheredin.dao.CustomerDaoImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,15 +16,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Tag("anna")
-class CustomerServiceTest {
+class CustomerServiceImplTest {
 
     //DEPENDENCIES
     @Mock
-    private CustomerDao customerDao;
+    private CustomerDaoImpl customerDaoImpl;
 
     private AutoCloseable autoCloseable;
 
-    private CustomerService underTest;
+    private CustomerServiceImpl underTest;
 
     //ARGS
     public static final String LOGIN = "login";
@@ -36,7 +36,7 @@ class CustomerServiceTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new CustomerService(customerDao);
+        underTest = new CustomerServiceImpl(customerDaoImpl);
     }
 
     @AfterEach
@@ -48,12 +48,12 @@ class CustomerServiceTest {
     @Test
     void getBalance() {
         //give
-        when(customerDao.getBalance(Mockito.eq(LOGIN))).thenReturn(BALANCE);
+        when(customerDaoImpl.getBalance(Mockito.eq(LOGIN))).thenReturn(BALANCE);
         //when
         Integer getBalance = underTest.getBalance(LOGIN);
         //then
         assertEquals(BALANCE, getBalance);
-        verify(customerDao, Mockito.times(1)).getBalance(LOGIN);
+        verify(customerDaoImpl, Mockito.times(1)).getBalance(LOGIN);
     }
 
     @Test
@@ -66,7 +66,7 @@ class CustomerServiceTest {
         });
         //then
         assertTrue(exception.getMessage().contains(expectedMessage));
-        verify(customerDao, Mockito.never()).updateBalance(any(), any());
+        verify(customerDaoImpl, Mockito.never()).updateBalance(any(), any());
     }
 
     @Test
@@ -79,7 +79,7 @@ class CustomerServiceTest {
         });
         //then
         assertTrue(exception.getMessage().contains(expectedMessage));
-        verify(customerDao, Mockito.never()).updateBalance(any(), any());
+        verify(customerDaoImpl, Mockito.never()).updateBalance(any(), any());
     }
 
     //CREATE
@@ -93,7 +93,7 @@ class CustomerServiceTest {
         });
         //then
         assertTrue(exception.getMessage().contains(expectedMessage));
-        verify(customerDao, Mockito.never()).updateBalance(any(), any());
+        verify(customerDaoImpl, Mockito.never()).updateBalance(any(), any());
     }
 
     @Test
@@ -106,7 +106,7 @@ class CustomerServiceTest {
         });
         //then
         assertTrue(exception.getMessage().contains(expectedMessage));
-        verify(customerDao, Mockito.never()).updateBalance(any(), any());
+        verify(customerDaoImpl, Mockito.never()).updateBalance(any(), any());
     }
 
     @Test
@@ -119,28 +119,28 @@ class CustomerServiceTest {
         });
         //then
         assertTrue(exception.getMessage().contains(expectedMessage));
-        verify(customerDao, Mockito.never()).updateBalance(any(), any());
+        verify(customerDaoImpl, Mockito.never()).updateBalance(any(), any());
     }
 
     @Test
     void updateBalanceExistsLogin() {
         //give
-        when(customerDao.updateBalance(Mockito.eq(LOGIN), any(Integer.class))).thenReturn(true);
+        when(customerDaoImpl.updateBalance(Mockito.eq(LOGIN), any(Integer.class))).thenReturn(true);
         //when
         boolean updated =  underTest.updateBalance(LOGIN, BALANCE);
         //then
         assertTrue(updated);
-        verify(customerDao, Mockito.times(1)).updateBalance(LOGIN, BALANCE);
+        verify(customerDaoImpl, Mockito.times(1)).updateBalance(LOGIN, BALANCE);
     }
 
     @Test
     void updateBalanceAbsenceLogin() {
         //give
-        when(customerDao.updateBalance(Mockito.eq(LOGIN), any(Integer.class))).thenReturn(false);
+        when(customerDaoImpl.updateBalance(Mockito.eq(LOGIN), any(Integer.class))).thenReturn(false);
         //when
         boolean updated =  underTest.updateBalance(LOGIN, BALANCE);
         //then
-        assertDoesNotThrow(() -> customerDao.updateBalance(LOGIN, BALANCE));
+        assertDoesNotThrow(() -> customerDaoImpl.updateBalance(LOGIN, BALANCE));
         assertFalse(updated);
     }
 

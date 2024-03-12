@@ -3,6 +3,7 @@ package ru.scheredin.dao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -10,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.scheredin.utils.DataBaseUtils;
 
-import static org.mockito.Mockito.when;
-
+@Tag("denis")
 public class UserDaoTests {
     @Mock
     private DataBaseUtils dataBaseUtils;

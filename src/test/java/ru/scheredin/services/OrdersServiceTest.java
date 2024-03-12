@@ -1,4 +1,4 @@
-package ru.scheredin.config.services;
+package ru.scheredin.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,8 +10,6 @@ import org.mockito.MockitoAnnotations;
 import ru.scheredin.dao.OrdersDao;
 import ru.scheredin.dao.UserDao;
 import ru.scheredin.dto.Order;
-import ru.scheredin.services.OrdersService;
-import ru.scheredin.services.ProductsService;
 import ru.scheredin.utils.DataBaseUtils;
 
 import java.util.Arrays;

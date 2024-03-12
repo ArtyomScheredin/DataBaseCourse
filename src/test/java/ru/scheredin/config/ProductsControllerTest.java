@@ -1,4 +1,4 @@
-package ru.scheredin.config.api;
+package ru.scheredin.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +18,6 @@ import ru.scheredin.dto.Review;
 import ru.scheredin.services.ProductsService;
 import ru.scheredin.utils.DataBaseUtils;
 import ru.scheredin.dao.UserDao;
-import ru.scheredin.api.ProductsController;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

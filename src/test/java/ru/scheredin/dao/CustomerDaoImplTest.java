@@ -16,11 +16,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Tag("anna")
-class CustomerDaoTest {
+class CustomerDaoImplTest {
 
     @Mock
     private DataBaseUtils dataBaseUtils;
-    private CustomerDao underTest;
+    private CustomerDaoImpl underTest;
 
     private AutoCloseable autoCloseable;
 
@@ -31,7 +31,7 @@ class CustomerDaoTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new CustomerDao(dataBaseUtils);
+        underTest = new CustomerDaoImpl(dataBaseUtils);
         when(dataBaseUtils.querySingle(any(String.class), any(DataBaseUtils.ResultSetConverter.class))).thenReturn(BALANCE);
         when(dataBaseUtils.execute(any(String.class))).thenReturn(1);
     }

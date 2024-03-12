@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+@Tag("denis")
 public class OrdersDaoTest {
     @Mock
     private DataBaseUtils dataBaseUtils;

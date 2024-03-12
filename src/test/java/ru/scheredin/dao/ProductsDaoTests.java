@@ -3,6 +3,7 @@ package ru.scheredin.dao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -13,6 +14,7 @@ import ru.scheredin.utils.DataBaseUtils;
 
 import java.util.List;
 
+@Tag("denis")
 public class ProductsDaoTests {
     @Mock
     private DataBaseUtils dataBaseUtils;

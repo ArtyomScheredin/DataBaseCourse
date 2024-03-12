@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.scheredin.services.CustomerService;
+import ru.scheredin.services.CustomerServiceImpl;
 import ru.scheredin.utils.DataBaseUtils;
 
 import java.security.Principal;
@@ -25,7 +25,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
-    private final CustomerService customerService;
+    private final CustomerServiceImpl customerServiceImpl;
     private final UserDetailsService userDetailsService;
     private final DataBaseUtils dataBaseUtils;
     private final ObjectMapper objectMapper;
@@ -62,12 +62,12 @@ public class UserController {
         if(principal == null){
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(customerService.getBalance(principal.getName()));
+        return ResponseEntity.ok(customerServiceImpl.getBalance(principal.getName()));
     }
 
     @PutMapping("/balance")
     public ResponseEntity<String> updateBalance(@RequestParam("newBalance") Integer newBalance, Principal principal) {
-        if (customerService.updateBalance(principal.getName(), newBalance)) {
+        if (customerServiceImpl.updateBalance(principal.getName(), newBalance)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();

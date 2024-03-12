@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.scheredin.config.JwtUtils;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

@@ -1,4 +1,4 @@
-package ru.scheredin.config.api;
+package ru.scheredin.api;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +19,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.scheredin.api.AuthenticationController;
 import ru.scheredin.config.JwtUtils;
 import ru.scheredin.dto.AuthenticationRequest;
 

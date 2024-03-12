@@ -3,13 +3,6 @@ package ru.scheredin.dto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import ru.scheredin.dto.AuthenticationRequest;
-import ru.scheredin.dto.Category;
-import ru.scheredin.dto.Employee;
-import ru.scheredin.dto.Order;
-import ru.scheredin.dto.Product;
-import ru.scheredin.dto.Refund;
-import ru.scheredin.dto.Review;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

@@ -18,11 +18,11 @@ import java.util.Properties;
 @NoArgsConstructor
 public class DataBaseUtils {
     @Value("${datasource.url}")
-    private final String url = null;
+    private final String url = "url";
     @Value("${datasource.username}")
-    private final String username = null;
+    private final String username = "user";
     @Value("${datasource.password}")
-    private final String password = null;
+    private final String password = "pass";
 
     private Connection getConnection() throws SQLException {
         Properties props = new Properties();

@@ -1,4 +1,4 @@
-package ru.scheredin.config.services;
+package ru.scheredin.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import ru.scheredin.dao.EmployeesDao;
 import ru.scheredin.dto.Employee;
-import ru.scheredin.services.EmployeesService;
 
 import java.util.Arrays;
 import java.util.Collections;

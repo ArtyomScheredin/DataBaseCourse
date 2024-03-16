@@ -26,11 +26,11 @@ class RefundsServiceTest {
     @Mock
     private RefundsDao refundsDao;
     @Mock
-    private EmployeesService employeesService;
+    private EmployeesServiceImpl employeesService;
 
     private AutoCloseable autoCloseable;
 
-    private RefundsService underTest;
+    private RefundsServiceImpl underTest;
 
     //ARGS
     public static final String DESCRIPTION = "some info";
@@ -44,7 +44,7 @@ class RefundsServiceTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new RefundsService(refundsDao, employeesService);
+        underTest = new RefundsServiceImpl(refundsDao, employeesService);
     }
 
     @AfterEach
@@ -98,7 +98,7 @@ class RefundsServiceTest {
         //give
         Employee employee = new Employee();
         employee.setUser_id(EMPLOYEE_ID);
-        when(refundsDao.findWithOrderId(any())).thenReturn(REFUNDS);
+        when(refundsDao.findWithOrderId(any())).thenReturn(Collections.EMPTY_LIST);
         when(employeesService.getRandomEmployee()).thenReturn(employee);
         when(refundsDao.createRefund(any(), any(), any())).thenReturn(true);
         //when

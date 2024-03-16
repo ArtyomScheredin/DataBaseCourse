@@ -24,7 +24,7 @@ public class EmployeesServiceTest {
     private EmployeesDao employeesDao;
 
     @InjectMocks
-    private EmployeesService employeesService;
+    private EmployeesServiceImpl employeesService;
 
     @BeforeEach
     public void setUp() {

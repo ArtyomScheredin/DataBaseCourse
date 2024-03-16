@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.scheredin.dto.Refund;
-import ru.scheredin.services.RefundsService;
+import ru.scheredin.services.RefundsServiceImpl;
 
 import java.security.Principal;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 public class RefundsController {
-    private final RefundsService refundsService;
+    private final RefundsServiceImpl refundsService;
     private final ObjectMapper objectMapper;
 
     @NoArgsConstructor

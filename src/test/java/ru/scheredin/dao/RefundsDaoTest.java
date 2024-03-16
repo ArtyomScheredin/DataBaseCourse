@@ -24,7 +24,7 @@ class RefundsDaoTest {
 
     @Mock
     private DataBaseUtils dataBaseUtils;
-    private RefundsDao underTest;
+    private RefundsDaoImpl underTest;
 
     private AutoCloseable autoCloseable;
 
@@ -40,7 +40,7 @@ class RefundsDaoTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new RefundsDao(dataBaseUtils);
+        underTest = new RefundsDaoImpl(dataBaseUtils);
         when(dataBaseUtils.query(any(String.class), any(Class.class))).thenReturn(REFUNDS);
         when(dataBaseUtils.execute(any(String.class))).thenReturn(1);
     }

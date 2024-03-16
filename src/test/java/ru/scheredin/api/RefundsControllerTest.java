@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.scheredin.config.JwtAuthFilter;
 import ru.scheredin.dto.Refund;
-import ru.scheredin.services.RefundsService;
+import ru.scheredin.services.RefundsServiceImpl;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 import java.security.Principal;
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RefundsControllerTest {
 
     @MockBean
-    private RefundsService refundsService;
+    private RefundsServiceImpl refundsService;
     @MockBean
     private JwtAuthFilter jwtAuthFilter;
     @Mock

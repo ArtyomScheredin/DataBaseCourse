@@ -36,6 +36,7 @@ public class DataBaseUtils {
         List<T> list = query(statement, converter);
         return list.size() == 1 ? list.get(0) : null;
     }
+
     public <T> T querySingle(String statement, Class<T> clazz) {
         List<T> list = query(statement, clazz);
         return list.size() == 1 ? list.get(0) : null;

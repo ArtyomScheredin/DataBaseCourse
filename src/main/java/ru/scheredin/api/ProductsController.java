@@ -17,11 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.scheredin.dao.UserDao;
+import ru.scheredin.dao.UserDaoImpl;
 import ru.scheredin.dto.Category;
-import ru.scheredin.dto.Product;
 import ru.scheredin.dto.Review;
-import ru.scheredin.services.ProductsService;
+import ru.scheredin.services.ProductsServiceImpl;
 import ru.scheredin.utils.DataBaseUtils;
 
 import java.security.Principal;
@@ -32,10 +31,10 @@ import java.util.Map;
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductsController {
-    private final ProductsService productsService;
+    private final ProductsServiceImpl productsServiceImpl;
     private final DataBaseUtils dataBaseUtils;
     private final ObjectMapper objectMapper;
-    private final UserDao userDao;
+    private final UserDaoImpl userDaoImpl;
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/categories")
     public ResponseEntity<String> getCategories()
             throws JsonProcessingException {
@@ -46,7 +45,7 @@ public class ProductsController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getProducts(@RequestParam(required = false) Map<String, String> filters)
             throws JsonProcessingException {
-        return ResponseEntity.ok(objectMapper.writeValueAsString(productsService.findAllMatching(filters)));
+        return ResponseEntity.ok(objectMapper.writeValueAsString(productsServiceImpl.findAllMatching(filters)));
     }
 
     @GetMapping(value = "/{product_id}/review", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,7 +76,7 @@ public class ProductsController {
         if (principal == null) {
             return ResponseEntity.badRequest().build();
         }
-        Integer userId = userDao.findUserIdByLogin(principal.getName());
+        Integer userId = userDaoImpl.findUserIdByLogin(principal.getName());
         dataBaseUtils.execute(String.format("""
                                                                                   insert into reviews (rate, description, customer_id, product_id) values (
                                                                                   %d,'%s',%d,%d

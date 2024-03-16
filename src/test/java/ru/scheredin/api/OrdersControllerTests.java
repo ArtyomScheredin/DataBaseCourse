@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.scheredin.dto.Order;
-import ru.scheredin.services.OrdersService;
+import ru.scheredin.services.OrdersServiceImpl;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 @Tag("denis")
 public class OrdersControllerTests {
     @Mock
-    private OrdersService ordersService;
+    private OrdersServiceImpl ordersServiceImpl;
     @Mock
     private Principal principal = Mockito.mock(Principal.class);
     @Autowired
@@ -46,7 +46,7 @@ public class OrdersControllerTests {
     void setUp() {
         objectMapper = new ObjectMapper();
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new OrdersController(ordersService, objectMapper);
+        underTest = new OrdersController(ordersServiceImpl, objectMapper);
         this.mockMvc = MockMvcBuilders.standaloneSetup(underTest).build();
 
     }
@@ -58,7 +58,7 @@ public class OrdersControllerTests {
     @Test
     @DisplayName("Тест создания заказа")
     void createOrderTest() throws Exception {
-        when(ordersService.createOrder(map, principal.getName())).thenReturn(0);
+        when(ordersServiceImpl.createOrder(map, principal.getName())).thenReturn(0);
 
         ResponseEntity<Integer> resp = underTest.createOrder(map, principal);
 
@@ -67,7 +67,7 @@ public class OrdersControllerTests {
     @Test
     @DisplayName("Тест создания заказа, если не найден orderId")
     void createOrderTest1() throws Exception {
-        when(ordersService.createOrder(map, principal.getName())).thenReturn(null);
+        when(ordersServiceImpl.createOrder(map, principal.getName())).thenReturn(null);
 
         ResponseEntity<Integer> resp = underTest.createOrder(map, principal);
 
@@ -84,7 +84,7 @@ public class OrdersControllerTests {
     @Test
     @DisplayName("Тест для получения моих заказов")
     void getMyOrdersTest() throws Exception {
-        when(ordersService.getOrders(principal.getName())).thenReturn(orders);
+        when(ordersServiceImpl.getOrders(principal.getName())).thenReturn(orders);
 
         ResponseEntity<String> resp = underTest.getMyOrders(principal);
 

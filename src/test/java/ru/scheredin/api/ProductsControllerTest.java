@@ -16,8 +16,8 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.scheredin.config.JwtAuthFilter;
-import ru.scheredin.dao.UserDao;
-import ru.scheredin.services.ProductsService;
+import ru.scheredin.dao.UserDaoImpl;
+import ru.scheredin.services.ProductsServiceImpl;
 import ru.scheredin.utils.DataBaseUtils;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,9 +42,9 @@ class ProductsControllerTest {
     @MockBean
     private DataBaseUtils dataBaseUtils;
     @MockBean
-    private UserDao userDao;
+    private UserDaoImpl userDaoImpl;
     @MockBean
-    private ProductsService productsService;
+    private ProductsServiceImpl productsServiceImpl;
 
     private AutoCloseable autoCloseable;
 
@@ -61,7 +61,7 @@ class ProductsControllerTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new ProductsController(productsService, dataBaseUtils, objectMapper, userDao);
+        underTest = new ProductsController(productsServiceImpl, dataBaseUtils, objectMapper, userDaoImpl);
         this.mockMvc = MockMvcBuilders.standaloneSetup(underTest).build();
         when(dataBaseUtils.execute(any(String.class))).thenReturn(1);
         when(dataBaseUtils.querySingle(any(String.class), any(DataBaseUtils.ResultSetConverter.class))).thenReturn("");

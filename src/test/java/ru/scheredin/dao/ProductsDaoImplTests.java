@@ -9,24 +9,24 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.scheredin.dto.Product;
 import ru.scheredin.utils.DataBaseUtils;
 
+import java.util.List;
+
 @Tag("denis")
-public class UserDaoTests {
+public class ProductsDaoImplTests {
     @Mock
     private DataBaseUtils dataBaseUtils;
     @Autowired
-    private UserDao underTest;
+    private ProductsDaoImpl underTest;
     private AutoCloseable autoCloseable;
     private UserDetails userDetails;
 
-    private static final String LOGIN = "LOGIN";
-    public static final String SELECT_ALL_USERS = """
-            select * from get_user_info_by_name('%s');""";
     @BeforeEach
     void setUp(){
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new UserDao(dataBaseUtils);
+        underTest = new ProductsDaoImpl(dataBaseUtils);
     }
     @AfterEach
     void tearDown() throws Exception {
@@ -35,11 +35,7 @@ public class UserDaoTests {
     @Test
     @DisplayName("Тест проверка")
     void findUserByLoginTest(){
-        UserDetails res = underTest.findUserByLogin(LOGIN);
-    }
-    @Test
-    @DisplayName("Тест проверка")
-    void findUserIdByLogin(){
-        Integer res = underTest.findUserIdByLogin(LOGIN);
+        List<Product> res = underTest.findAllProducts();
+        List<Integer> res1 = underTest.findAllProductsNotDiscontinued();
     }
 }

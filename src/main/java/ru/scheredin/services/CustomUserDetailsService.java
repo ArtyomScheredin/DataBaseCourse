@@ -5,15 +5,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.scheredin.dao.UserDao;
+import ru.scheredin.dao.UserDaoImpl;
 
 @Service
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-    private final UserDao userDao;
+    private final UserDaoImpl userDaoImpl;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDao.findUserByLogin(username);
+        return userDaoImpl.findUserByLogin(username);
     }
 }

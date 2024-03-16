@@ -17,18 +17,18 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @Tag("denis")
-public class OrdersDaoTest {
+public class OrdersDaoImplTest {
     @Mock
     private DataBaseUtils dataBaseUtils;
     @Mock
     private List<Order> orders;
     @Autowired
-    private OrdersDao underTest;
+    private OrdersDaoImpl underTest;
     private AutoCloseable autoCloseable;
     @BeforeEach
     void setUp(){
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new OrdersDao(dataBaseUtils);
+        underTest = new OrdersDaoImpl(dataBaseUtils);
     }
     @AfterEach
     void tearDown() throws Exception {

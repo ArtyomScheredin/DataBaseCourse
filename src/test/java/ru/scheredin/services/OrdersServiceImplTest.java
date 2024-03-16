@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import ru.scheredin.dao.OrdersDao;
-import ru.scheredin.dao.UserDao;
+import ru.scheredin.dao.OrdersDaoImpl;
+import ru.scheredin.dao.UserDaoImpl;
 import ru.scheredin.dto.Order;
 import ru.scheredin.utils.DataBaseUtils;
 
@@ -23,19 +23,19 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @Tag("lera")
-public class OrdersServiceTest {
+public class OrdersServiceImplTest {
 
     @Mock
-    private OrdersDao ordersDao;
+    private OrdersDaoImpl ordersDaoImpl;
     @Mock
-    private ProductsService productsService;
+    private ProductsServiceImpl productsServiceImpl;
     @Mock
-    private UserDao userDao;
+    private UserDaoImpl userDaoImpl;
     @Mock
     private DataBaseUtils dataBaseUtils;
 
     @InjectMocks
-    private OrdersService ordersService;
+    private OrdersServiceImpl ordersServiceImpl;
 
     @BeforeEach
     public void setUp() {
@@ -47,9 +47,9 @@ public class OrdersServiceTest {
     public void whenUserExists_thenGetOrdersReturnsOrders() {
         String username = "existingUser";
         List<Order> expectedOrders = Arrays.asList(new Order(), new Order());
-        when(ordersDao.getOrdersByLogin(username)).thenReturn(expectedOrders);
+        when(ordersDaoImpl.getOrdersByLogin(username)).thenReturn(expectedOrders);
 
-        List<Order> orders = ordersService.getOrders(username);
+        List<Order> orders = ordersServiceImpl.getOrders(username);
 
         assertNotNull(orders);
         assertFalse(orders.isEmpty());
@@ -60,9 +60,9 @@ public class OrdersServiceTest {
     @DisplayName("Получение заказов для несуществующего пользователя возвращает пустой список")
     public void whenUserNotExists_thenGetOrdersReturnsEmptyList() {
         String username = "nonExistingUser";
-        when(ordersDao.getOrdersByLogin(username)).thenReturn(Collections.emptyList());
+        when(ordersDaoImpl.getOrdersByLogin(username)).thenReturn(Collections.emptyList());
 
-        List<Order> orders = ordersService.getOrders(username);
+        List<Order> orders = ordersServiceImpl.getOrders(username);
 
         assertNotNull(orders);
         assertTrue(orders.isEmpty());
@@ -73,9 +73,9 @@ public class OrdersServiceTest {
     public void whenUserNotExists_thenCreateOrderReturnsNull() {
         String username = "nonExistingUser";
         Map<Integer, Integer> products = Map.of(1, 2);
-        when(userDao.findUserIdByLogin(username)).thenReturn(null);
+        when(userDaoImpl.findUserIdByLogin(username)).thenReturn(null);
 
-        Integer orderId = ordersService.createOrder(products, username);
+        Integer orderId = ordersServiceImpl.createOrder(products, username);
 
         assertNull(orderId);
     }
@@ -84,9 +84,9 @@ public class OrdersServiceTest {
     @DisplayName("Создание заказа для несуществующего пользователя возвращает null")
     void createOrderForNonExistingUser() {
         String username = "nonExistingUser";
-        when(userDao.findUserIdByLogin(username)).thenReturn(null);
+        when(userDaoImpl.findUserIdByLogin(username)).thenReturn(null);
 
-        Integer result = ordersService.createOrder(Map.of(1, 2), username);
+        Integer result = ordersServiceImpl.createOrder(Map.of(1, 2), username);
 
         assertNull(result);
     }
@@ -94,12 +94,12 @@ public class OrdersServiceTest {
     @Test
     @DisplayName("Создание заказа когда обновление баланса вызывает ошибку")
     void createOrderUpdateBalanceThrowsException() {
-        when(userDao.findUserIdByLogin("user")).thenReturn(1);
-        when(ordersDao.getOrdersByLogin("user")).thenReturn(List.of(new Order())); // Provide a dummy order
+        when(userDaoImpl.findUserIdByLogin("user")).thenReturn(1);
+        when(ordersDaoImpl.getOrdersByLogin("user")).thenReturn(List.of(new Order())); // Provide a dummy order
         doThrow(RuntimeException.class).when(dataBaseUtils).execute(anyString());
 
         assertThrows(RuntimeException.class, () -> {
-            ordersService.createOrder(Map.of(1, 2), "user");
+            ordersServiceImpl.createOrder(Map.of(1, 2), "user");
         });
     }
 }

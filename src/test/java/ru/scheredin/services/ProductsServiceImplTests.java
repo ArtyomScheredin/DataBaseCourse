@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import ru.scheredin.dao.ProductsDao;
+import ru.scheredin.dao.ProductsDaoImpl;
 import ru.scheredin.dto.Product;
 import ru.scheredin.utils.DataBaseUtils;
 
@@ -21,17 +21,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Tag("denis")
-public class ProductsServiceTests {
+public class ProductsServiceImplTests {
     @Mock
-    private ProductsDao productsDao;
+    private ProductsDaoImpl productsDaoImpl;
     private DataBaseUtils dataBaseUtils;
-    private ProductsService underTest;
+    private ProductsServiceImpl underTest;
     private AutoCloseable autoCloseable;
 
     @BeforeEach
     void setUp(){
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new ProductsService(productsDao, dataBaseUtils);
+        underTest = new ProductsServiceImpl(productsDaoImpl, dataBaseUtils);
     }
 
     @AfterEach
@@ -47,7 +47,7 @@ public class ProductsServiceTests {
         //when
         underTest.findAllMatching(filters);
         //then
-        verify(productsDao).findAllProducts();
+        verify(productsDaoImpl).findAllProducts();
     }
     @Test
     @DisplayName("Тест по выводу списка совподающих продуктов c пустыми фильтрами")
@@ -60,7 +60,7 @@ public class ProductsServiceTests {
         products.add(new Product(0, "iphone", "phone"
                 , 5000, 20, false));
 
-        when(productsDao.findAllProducts()).thenReturn(products);
+        when(productsDaoImpl.findAllProducts()).thenReturn(products);
 
         List<Product> result = underTest.findAllMatching(new HashMap<>());
 
@@ -77,7 +77,7 @@ public class ProductsServiceTests {
         products.add(new Product(0, "iphone", "phone"
                 , 5000, 20, false));
 
-        when(productsDao.findAllProducts()).thenReturn(products);
+        when(productsDaoImpl.findAllProducts()).thenReturn(products);
         Map<String, String> filters = new HashMap<>();
         filters.put("price_min", "50");
         filters.put("price_max", "100");
@@ -97,7 +97,7 @@ public class ProductsServiceTests {
         products.add(new Product(0, "iphone", "phone"
                 , 5000, 20, true));
 
-        when(productsDao.findAllProducts()).thenReturn(products);
+        when(productsDaoImpl.findAllProducts()).thenReturn(products);
         Map<String, String> filters = new HashMap<>();
         filters.put("discontinued", "true");
 
@@ -116,7 +116,7 @@ public class ProductsServiceTests {
         products.add(new Product(0, "iphone", "phone"
                 , 5000, 20, true));
 
-        when(productsDao.findAllProducts()).thenReturn(products);
+        when(productsDaoImpl.findAllProducts()).thenReturn(products);
         Map<String, String> filters = new HashMap<>();
         filters.put("sort", "ascending");
 
@@ -139,7 +139,7 @@ public class ProductsServiceTests {
         products.add(new Product(0, "iphone", "phone"
                 , 60, 20, false));
 
-        when(productsDao.findAllProducts()).thenReturn(products);
+        when(productsDaoImpl.findAllProducts()).thenReturn(products);
         Map<String, String> filters = new HashMap<>();
         filters.put("sort", "not ascending");
 
@@ -162,7 +162,7 @@ public class ProductsServiceTests {
         products.add(new Product(0, "iphone", "phone"
                 , 60, 20, false));
 
-        when(productsDao.findAllProducts()).thenReturn(products);
+        when(productsDaoImpl.findAllProducts()).thenReturn(products);
         Map<String, String> filters = new HashMap<>();
         filters.put("quantity_min", "10");
 
@@ -177,6 +177,6 @@ public class ProductsServiceTests {
         //when
         underTest.findAllProductsNotDiscontinued();
         //then
-        verify(productsDao).findAllProductsNotDiscontinued();
+        verify(productsDaoImpl).findAllProductsNotDiscontinued();
     }
 }

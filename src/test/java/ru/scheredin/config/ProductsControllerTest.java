@@ -15,9 +15,9 @@ import ru.scheredin.api.ProductsController;
 import ru.scheredin.dto.Category;
 import ru.scheredin.dto.Product;
 import ru.scheredin.dto.Review;
-import ru.scheredin.services.ProductsService;
+import ru.scheredin.services.ProductsServiceImpl;
 import ru.scheredin.utils.DataBaseUtils;
-import ru.scheredin.dao.UserDao;
+import ru.scheredin.dao.UserDaoImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,7 +33,7 @@ import static org.mockito.Mockito.*;
 public class ProductsControllerTest {
 
     @Mock
-    private ProductsService productsService;
+    private ProductsServiceImpl productsServiceImpl;
 
     @Mock
     private DataBaseUtils dataBaseUtils;
@@ -42,7 +42,7 @@ public class ProductsControllerTest {
     private ObjectMapper objectMapper;
 
     @Mock
-    private UserDao userDao;
+    private UserDaoImpl userDaoImpl;
 
     @InjectMocks
     private ProductsController productsController;
@@ -105,7 +105,7 @@ public class ProductsControllerTest {
                 new Product(1, "Product1", "Category1", 100, 10, false),
                 new Product(2, "Product2", "Category2", 150, 15, true)
         );
-        when(productsService.findAllMatching(Collections.emptyMap())).thenReturn(allProducts);
+        when(productsServiceImpl.findAllMatching(Collections.emptyMap())).thenReturn(allProducts);
         String allProductsJson = "[{\"product_id\":1,\"name\":\"Product1\",\"category\":\"Category1\",\"price\":100,\"quantity\":10,\"discontinued\":false}," +
                 "{\"product_id\":2,\"name\":\"Product2\",\"category\":\"Category2\",\"price\":150,\"quantity\":15,\"discontinued\":true}]";
         when(objectMapper.writeValueAsString(allProducts)).thenReturn(allProductsJson);
@@ -124,7 +124,7 @@ public class ProductsControllerTest {
         List<Product> filteredProducts = Collections.singletonList(
                 new Product(1, "Product1", "Category1", 100, 10, false)
         );
-        when(productsService.findAllMatching(filters)).thenReturn(filteredProducts);
+        when(productsServiceImpl.findAllMatching(filters)).thenReturn(filteredProducts);
         String filteredProductsJson = "[{\"product_id\":1,\"name\":\"Product1\",\"category\":\"Category1\",\"price\":100,\"quantity\":10,\"discontinued\":false}]";
         when(objectMapper.writeValueAsString(filteredProducts)).thenReturn(filteredProductsJson);
 
@@ -152,7 +152,7 @@ public class ProductsControllerTest {
     @Test
     @DisplayName("Получение продуктов, когда сервис возвращает null")
     public void getProducts_ServiceReturnsNull_ReturnsEmptyJsonArray() throws JsonProcessingException {
-        when(productsService.findAllMatching(any())).thenReturn(null);
+        when(productsServiceImpl.findAllMatching(any())).thenReturn(null);
         when(objectMapper.writeValueAsString(any())).thenReturn("[]");
 
         ResponseEntity<String> response = productsController.getProducts(new HashMap<>());
@@ -206,7 +206,7 @@ public class ProductsControllerTest {
         ProductsController.ReviewLocalDto reviewDto = new ProductsController.ReviewLocalDto(5, "Great product");
         Principal principal = mock(Principal.class);
         when(principal.getName()).thenReturn("username");
-        when(userDao.findUserIdByLogin("username")).thenReturn(userId);
+        when(userDaoImpl.findUserIdByLogin("username")).thenReturn(userId);
 
         ResponseEntity<String> response = productsController.postReview(productId, reviewDto, principal);
 

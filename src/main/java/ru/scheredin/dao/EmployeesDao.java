@@ -1,6 +1,5 @@
 package ru.scheredin.dao;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.scheredin.dto.Employee;

@@ -22,7 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.scheredin.DemoApplication;
 import ru.scheredin.api.AuthenticationController;
 import ru.scheredin.config.JwtAuthFilter;
-import ru.scheredin.dao.UserDao;
+import ru.scheredin.dao.UserDaoImpl;
 import ru.scheredin.dto.AuthenticationRequest;
 
 import java.util.Collections;
@@ -45,7 +45,7 @@ public class AuthTest {
     JwtAuthFilter jwtAuthFilter;
 
     @MockBean
-    UserDao userDao;
+    UserDaoImpl userDaoImpl;
     @Autowired
     TestRestTemplate template;
 
@@ -55,7 +55,7 @@ public class AuthTest {
     );
     @BeforeEach
     void setup() {
-        Mockito.when(userDao.findUserByLogin(LOGIN)).thenReturn(user);
+        Mockito.when(userDaoImpl.findUserByLogin(LOGIN)).thenReturn(user);
     }
 
     @Test

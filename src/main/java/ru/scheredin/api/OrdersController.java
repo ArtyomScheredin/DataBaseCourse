@@ -3,16 +3,14 @@ package ru.scheredin.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.scheredin.services.OrdersService;
+import ru.scheredin.services.OrdersServiceImpl;
 
 import java.security.Principal;
 import java.util.Map;
@@ -21,7 +19,7 @@ import java.util.Map;
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrdersController {
-    private final OrdersService ordersService;
+    private final OrdersServiceImpl ordersServiceImpl;
     private final ObjectMapper objectMapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,7 +27,7 @@ public class OrdersController {
         if(principal == null){
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(objectMapper.writeValueAsString(ordersService.getOrders(principal.getName())));
+        return ResponseEntity.ok(objectMapper.writeValueAsString(ordersServiceImpl.getOrders(principal.getName())));
     }
 
     /**
@@ -41,7 +39,7 @@ public class OrdersController {
         if(principal == null){
             return ResponseEntity.badRequest().build();
         }
-        Integer orderId = ordersService.createOrder(products, principal.getName());
+        Integer orderId = ordersServiceImpl.createOrder(products, principal.getName());
         if (orderId == null) {
             return ResponseEntity.badRequest().build();
         }

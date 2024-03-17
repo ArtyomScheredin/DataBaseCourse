@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import ru.scheredin.dao.UserDao;
+import ru.scheredin.dao.UserDaoImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 class CustomUserDetailsServiceTest {
 
     @Mock
-    private UserDao userDao;
+    private UserDaoImpl userDaoImpl;
 
     @InjectMocks
     private CustomUserDetailsService userDetailsService;
@@ -36,7 +36,7 @@ class CustomUserDetailsServiceTest {
     void loadUserByUsername_UserExists_ReturnsUserDetails() {
         String username = "existingUser";
         UserDetails mockUserDetails = mock(UserDetails.class);
-        when(userDao.findUserByLogin(username)).thenReturn(mockUserDetails);
+        when(userDaoImpl.findUserByLogin(username)).thenReturn(mockUserDetails);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
@@ -49,7 +49,7 @@ class CustomUserDetailsServiceTest {
     void loadUserByUsername_UserExists_ReturnsCorrectUserDetails() {
         String username = "validUser";
         UserDetails mockUserDetails = mock(UserDetails.class);
-        when(userDao.findUserByLogin(username)).thenReturn(mockUserDetails);
+        when(userDaoImpl.findUserByLogin(username)).thenReturn(mockUserDetails);
         when(mockUserDetails.getUsername()).thenReturn(username);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -61,7 +61,7 @@ class CustomUserDetailsServiceTest {
     @DisplayName("Загрузка пользователя вызывает исключение, если пользователь не найден")
     void loadUserByUsername_UserNotExists_ThrowsUsernameNotFoundException() {
         String username = "nonExistingUser";
-        when(userDao.findUserByLogin(username)).thenThrow(new UsernameNotFoundException("User not found"));
+        when(userDaoImpl.findUserByLogin(username)).thenThrow(new UsernameNotFoundException("User not found"));
 
         assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername(username));
     }

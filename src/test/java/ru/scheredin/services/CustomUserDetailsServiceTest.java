@@ -7,15 +7,19 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ru.scheredin.dao.UserDaoImpl;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("lera")
 class CustomUserDetailsServiceTest {
@@ -74,7 +78,7 @@ class CustomUserDetailsServiceTest {
         String password = "password";
         String role = "USER";
 
-        when(userDao.findUserByLogin(username)).thenReturn(
+        when(userDaoImpl.findUserByLogin(username)).thenReturn(
                 new org.springframework.security.core.userdetails.User(
                         username, password, Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role))
                 )

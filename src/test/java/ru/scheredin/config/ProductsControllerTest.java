@@ -30,13 +30,14 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @Tag("lera")
+
 public class ProductsControllerTest {
 
     @Mock
     private ProductsServiceImpl productsServiceImpl;
 
     @Mock
-    private DataBaseUtils dataBaseUtils;
+    private static DataBaseUtils dataBaseUtils;
 
     @Mock
     private ObjectMapper objectMapper;
@@ -50,6 +51,39 @@ public class ProductsControllerTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    @DisplayName("Интеграционный тест: Обновление информации о продукте")
+    public void updateProduct_IntegrationTest_SuccessfulUpdate() {
+        // Arrange
+        int productId = 123; // ID тестового продукта
+        int initialPrice = 100; // Начальная цена
+        int initialQuantity = 50; // Начальное количество
+        boolean initialDiscontinued = false; // Начальный статус снятия с производства
+
+        // Подготовка данных: Убедиться, что тестовый продукт существует в базе данных
+        Product initialProduct = new Product(productId, "Test Product", "radios", initialPrice, initialQuantity, initialDiscontinued);
+
+        // Мокирование запроса к базе данных для получения начальных значений продукта
+        when(dataBaseUtils.querySingle(anyString(), eq(Product.class))).thenReturn(initialProduct);
+
+        // Новые значения для обновления
+        int updatedPrice = 120;
+        int updatedQuantity = 60;
+        boolean updatedDiscontinued = true;
+
+        // Вызов метода updateProduct(): Обновить параметры продукта
+        productsController.updateProduct(productId, updatedPrice, updatedQuantity, updatedDiscontinued);
+
+        // Проверка результата
+        // Подготовка ожидаемого обновленного продукта
+        Product expectedProduct = new Product(productId, "Test Product", "radios", updatedPrice, updatedQuantity, updatedDiscontinued);
+
+        // Проверка, что информация о продукте успешно обновлена в соответствии с переданными значениями
+        verify(dataBaseUtils, times(1)).execute(String.format("update products set price=%d where product_id=%d", updatedPrice, productId));
+        verify(dataBaseUtils, times(1)).execute(String.format("update products set quantity=%d where product_id=%d", updatedQuantity, productId));
+        verify(dataBaseUtils, times(1)).execute(String.format("update products set discontinued=%b where product_id=%d", updatedDiscontinued, productId));
     }
 
 

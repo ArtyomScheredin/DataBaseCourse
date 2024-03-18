@@ -71,6 +71,34 @@ public class EmployeesServiceTest {
         assertNotNull(randomEmployee);
         assertEquals(singleEmployee, randomEmployee);
     }
+    @Test
+    @DisplayName("Test getRandomEmployee method - лера")
+    public void testGetRandomEmployee() {
+        // Arrange
+        Employee employee1 = new Employee();
+        employee1.setUser_id(1);
+        employee1.setSalary(50000);
+        employee1.setEmployment_date("2022-01-01");
+        employee1.setRole_id(1);
+
+        Employee employee2 = new Employee();
+        employee2.setUser_id(2);
+        employee2.setSalary(60000);
+        employee2.setEmployment_date("2022-02-01");
+        employee2.setRole_id(2);
+
+        List<Employee> mockEmployees = Arrays.asList(employee1, employee2);
+
+        when(employeesDao.findAll()).thenReturn(mockEmployees);
+
+        // Act
+        Employee randomEmployee = employeesService.getRandomEmployee();
+
+        // Assert
+        assertNotNull(randomEmployee);
+        assertTrue(mockEmployees.contains(randomEmployee));
+    }
+
 }
 
 

@@ -69,5 +69,31 @@ class CustomUserDetailsServiceTest {
         assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername(username));
     }
 
+    @Test
+    @DisplayName("Test loadUserByUsername with existing user - Интеграционный Тест Лера" )
+    public void testLoadUserByUsername_existingUser() {
+        // Arrange
+        String username = "test_user";
+        String password = "password";
+        String role = "USER";
+
+        when(userDao.findUserByLogin(username)).thenReturn(
+                new org.springframework.security.core.userdetails.User(
+                        username, password, Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role))
+                )
+        );
+
+        // Act
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        // Assert
+        assertNotNull(userDetails);
+        assertEquals(username, userDetails.getUsername());
+        assertEquals(password, userDetails.getPassword());
+        assertTrue(userDetails.getAuthorities().stream().anyMatch(
+                a -> a.getAuthority().equals("ROLE_" + role)
+        ));
+    }
+
 }
 

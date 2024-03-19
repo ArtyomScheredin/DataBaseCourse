@@ -48,6 +48,7 @@ public class ChangeBalanceTest {
         logger.info("Проверка успешности обновления баланса");
     }
 
+
     @Test
     @DisplayName("Изменение баланса на отрицательный")
     public void changeBalanceTest2() {

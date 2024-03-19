@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.scheredin.utils.DataBaseUtils;
 
+import java.util.Collections;
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class CustomerDaoImpl implements CustomerDao {
@@ -12,6 +15,12 @@ public class CustomerDaoImpl implements CustomerDao {
     @Override
     public void saveCustomer(String login) {
         //do nothin
+    }
+
+    @Override
+    public List<String> getCustomers() {
+        //do nothin
+        return Collections.emptyList();
     }
 
     @Override

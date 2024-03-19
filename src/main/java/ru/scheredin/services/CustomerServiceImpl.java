@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.scheredin.dao.CustomerDao;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
@@ -34,5 +36,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
         customerDao.saveCustomer(login);
         return true;
+    }
+
+    @Override
+    public List<String> getCustomers() {
+        return customerDao.getCustomers();
+
     }
 }

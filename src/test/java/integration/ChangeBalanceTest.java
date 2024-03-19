@@ -19,8 +19,10 @@ import ru.scheredin.services.CustomerServiceImpl;
         @Tag("artyom")
 })
 public class ChangeBalanceTest {
+    public static final int NEW_BALANCE = 255;
     private static final Logger logger = LoggerFactory.getLogger(ChangeBalanceTest.class);
     public static final String USER = "user";
+    public static final int NEW_BALANCE_NEGATIVE = -255;
     private final CustomerDao customerDao = new CustomerDaoImplMock();
     private CustomerServiceImpl customerService = new CustomerServiceImpl(customerDao);
 
@@ -31,19 +33,28 @@ public class ChangeBalanceTest {
     }
 
     @Test
-    @DisplayName("Добавление нового покупателя из UserController\n")
-    void changeBalanceTest() {
-        logger.info("Начало теста changeBalanceTest");
-        boolean isSuccessful = customerService.saveCustomer(USER);
-        logger.info("Покупатель успешно создан: " + isSuccessful);
+    @DisplayName("Изменение баланса пользователя")
+    public void changeBalanceTest() {
+        logger.info("Запуск теста на изменение баланса");
+        customerService.saveCustomer(USER);
 
-        Assertions.assertTrue(isSuccessful, "Не удалось создать customer");
+        boolean isSuccessful = customerService.updateBalance(USER, NEW_BALANCE);
+
+        Assertions.assertTrue(isSuccessful, "Не удалось обновить баланс");
+        logger.info("Баланс успешно обновлен");
 
         Integer balance = customerService.getBalance(USER);
-        logger.info("Получен текущий баланс: " + balance);
+        Assertions.assertEquals(balance, NEW_BALANCE, "Баланс не обновился");
+        logger.info("Проверка успешности обновления баланса");
+    }
 
-        Assertions.assertEquals(0, balance, "Баланс не обновился");
+    @Test
+    @DisplayName("Изменение баланса на отрицательный")
+    public void changeBalanceTest2() {
+        logger.info("Запуск теста на изменение баланса");
+        customerService.saveCustomer(USER);
+        int newBalance = NEW_BALANCE_NEGATIVE;
 
-        logger.info("Тест changeBalanceTest завершен");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> customerService.updateBalance(USER, newBalance)) ;
     }
 }

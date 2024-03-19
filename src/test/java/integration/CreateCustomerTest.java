@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import ru.scheredin.dao.CustomerDao;
 import ru.scheredin.services.CustomerServiceImpl;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @Tags({
@@ -32,17 +33,16 @@ public class CreateCustomerTest {
     @Test
     @DisplayName("Добавление нового покупателя из UserController\n")
     void changeBalanceTest() {
-        logger.info("Запуск теста на изменение баланса");
-        customerService.saveCustomer(USER);
-        int newBalance = 255;
+        logger.info("Начало теста changeBalanceTest");
+        boolean isSuccessful = customerService.saveCustomer(USER);
+        logger.info("Покупатель успешно создан: " + isSuccessful);
 
-        boolean isSuccessful = customerService.updateBalance(USER, newBalance);
+        Assertions.assertTrue(isSuccessful, "Не удалось создать customer");
 
-        Assertions.assertTrue(isSuccessful, "Не удалось обновить баланс");
-        logger.info("Баланс успешно обновлен");
+        List<String> customers = customerService.getCustomers();
 
-        Integer balance = customerService.getBalance(USER);
-        Assertions.assertEquals(balance, newBalance, "Баланс не обновился");
-        logger.info("Проверка успешности обновления баланса");
+
+        Assertions.assertTrue(customers.contains(USER));
+
     }
 }

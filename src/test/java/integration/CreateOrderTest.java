@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-public class createOrderTest {
+public class CreateOrderTest {
     private final DataBaseUtils dataBaseUtils = mock(DataBaseUtils.class);
     private final OrdersDao ordersDao = new OrdersDaoImplMock();
     private final ProductsDao productsDao = new ProductsDaoImplMock();
